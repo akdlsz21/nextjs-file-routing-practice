@@ -6,9 +6,7 @@ function HomePage() {
 			<h1>the home page </h1>
 			<ul>
 				<li>
-					<Link replace href="/portfolio">
-						portfolio
-					</Link>
+					<Link href="/portfolio">portfolio</Link>
 				</li>
 				<li>
 					<Link href="/about">about</Link>
