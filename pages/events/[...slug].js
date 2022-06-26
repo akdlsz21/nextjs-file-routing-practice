@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { getFilteredEvents } from '../../dummy-data';
 import EventList from '../../components/events/EventList';
+import ResultsTitle from '../../components/events/results-title';
+import Button from '../../components/ui/Button';
 
 function FilteredEventsPage() {
 	const router = useRouter();
@@ -8,7 +10,12 @@ function FilteredEventsPage() {
 	const filterData = router.query.slug;
 
 	if (!filterData) {
-		return <p className="center">No filter data</p>;
+		return (
+			<>
+				<p className="center">No filter data</p>
+				<Button link="/events">Go to Events</Button>
+			</>
+		);
 	}
 
 	const filteredYears = filterData[0];
@@ -16,7 +23,7 @@ function FilteredEventsPage() {
 
 	const numYear = Number(filteredYears);
 	const numMonth = Number(filteredMonth);
-
+	const date = new Date(numYear, numMonth - 1);
 	if (
 		isNaN(numYear) ||
 		isNaN(numMonth) ||
@@ -25,16 +32,31 @@ function FilteredEventsPage() {
 		numMonth > 12 ||
 		numMonth < 1
 	) {
-		return <p className="center">Invalid filter data</p>;
+		return (
+			<>
+				<p className="center">No filter data</p>
+				<Button link="/events">Go to Events</Button>
+			</>
+		);
 	}
 
 	const filteredEvents = getFilteredEvents({ year: numYear, month: numMonth });
 
 	if (!filteredEvents || filteredEvents.length === 0) {
-		return <p className="center">No events found</p>;
+		return (
+			<>
+				<p className="center">No filter data</p>
+				<Button link="/events">Go to Events</Button>
+			</>
+		);
 	}
 
-	return <EventList items={filteredEvents} />;
+	return (
+		<>
+			<ResultsTitle date={date} />
+			<EventList items={filteredEvents} />
+		</>
+	);
 }
 
 export default FilteredEventsPage;
